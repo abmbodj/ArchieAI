@@ -12,6 +12,9 @@
   <link rel="stylesheet" href="static/styles/style.css" />
 
   <style>
+    body {
+      background: #1a2332;
+    }
     .login-container {
       min-height: 100vh;
       display: flex;
@@ -22,21 +25,134 @@
     .login-card {
       width: 100%;
       max-width: 420px;
-      background: var(--card-bg, #ffffff);
+      background: #283045;
       border-radius: 12px;
       padding: 1.75rem;
       box-shadow: 0 8px 24px rgba(0,0,0,0.08);
       text-align: center;
+      position: relative;
+      z-index: 10;
+      /* initial state for entrance animation */
+      transform: translateY(12px);
+      opacity: 0;
+      animation: slideUpFade 420ms cubic-bezier(.22,.9,.35,1) 80ms both;
     }
-    .login-card h1 { margin: 0 0 0.25rem 0; }
-    .login-card p.sub { margin: 0 0 1.25rem 0; color: #666; }
-    .login-field { width: 100%; padding: 0.75rem; margin-bottom: 0.75rem; border-radius: 8px; border: 1px solid #ddd; }
+    .login-card h1 {
+      margin: 0 0 0.25rem 0;
+      font-size: 2.5rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: #fff;
+      -webkit-animation: glow 1s ease-in-out infinite alternate;
+      -moz-animation: glow 1s ease-in-out infinite alternate;
+      animation: glow 1s ease-in-out infinite alternate;
+    }
+    .login-card p.sub { margin: 0 0 1.25rem 0; color: #97a7ca; }
+    .login-field { width: 100%; padding: 0.75rem; margin-bottom: 0.75rem; border-radius: 8px; border: 1px solid #3a4a62; background: #1a2332; color: #ffffff; }
+    .login-field::placeholder { color: #7a8a9f; }
     .login-actions { display:flex; gap:0.5rem; margin-top: 0.5rem; }
     .btn { flex:1; padding:0.75rem; border-radius:8px; border: none; cursor:pointer; font-weight:600; }
-    .btn-primary { background:#A20623; color:#fff; }
+    .btn-primary { background:#A20623; color:#fff; transition: 0.3s ease; }
+    .btn-primary:hover {
+      -webkit-animation: glow 1s ease-in-out infinite alternate;
+      -moz-animation: glow 1s ease-in-out infinite alternate;
+      animation: glow 1s ease-in-out infinite alternate;
+      text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #A20623, 0 0 40px #A20623, 0 0 50px #A20623, 0 0 60px #A20623, 0 0 70px #A20623;
+    }
     .btn-ghost { background:transparent; border:1px solid #ccc; }
-    .login-footer { margin-top:1rem; font-size:0.9rem; color:#555; }
+    .login-footer { margin-top:1rem; font-size:0.95rem; color:#c3cdde; text-align:left; line-height:1.45; }
+    .login-footer .legal-title { display:block; font-weight:700; margin-bottom:0.5rem; color:#ffffff; }
+    .login-footer .legal-scroll { max-height:160px; overflow:auto; padding-right:0.5rem; margin-bottom:0.5rem; }
+    .login-footer ul { margin:0.5rem 0 0.75rem 1.05rem; }
+    .login-footer p.note { margin-top:0.5rem; font-size:0.9rem; color:#97a7ca; }
+    .login-footer p.thanks { margin-top:0.5rem; font-weight:600; color:#ffffff; }
     .small-link { color:#2b6ef6; text-decoration:none; margin-left:0.25rem; }
+
+    /* Starfield background */
+    .star {
+      position: fixed;
+      width: 2px;
+      height: 2px;
+      background: #ffffff;
+      border-radius: 50%;
+      pointer-events: none;
+      box-shadow: 0 0 2px rgba(255, 255, 255, 0.8);
+      z-index: 1;
+    }
+
+    .star.twinkle {
+      animation: twinkle 3s infinite, drift 20s infinite linear;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 1; }
+    }
+
+    @keyframes drift {
+      0% {
+        transform: translate(0, 0);
+      }
+      25% {
+        transform: translate(30px, -20px);
+      }
+      50% {
+        transform: translate(-20px, 30px);
+      }
+      75% {
+        transform: translate(15px, 15px);
+      }
+      100% {
+        transform: translate(0, 0);
+      }
+    }
+
+    @-webkit-keyframes glow {
+      from {
+        text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #A20623, 0 0 40px #A20623, 0 0 50px #A20623, 0 0 60px #A20623, 0 0 70px #A20623;
+      }
+      to {
+        text-shadow: 0 0 20px #fff, 0 0 30px #d4184a, 0 0 40px #d4184a, 0 0 50px #d4184a, 0 0 60px #d4184a, 0 0 70px #d4184a, 0 0 80px #d4184a;
+      }
+    }
+
+    @-moz-keyframes glow {
+      from {
+        text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #A20623, 0 0 40px #A20623, 0 0 50px #A20623, 0 0 60px #A20623, 0 0 70px #A20623;
+      }
+      to {
+        text-shadow: 0 0 20px #fff, 0 0 30px #d4184a, 0 0 40px #d4184a, 0 0 50px #d4184a, 0 0 60px #d4184a, 0 0 70px #d4184a, 0 0 80px #d4184a;
+      }
+    }
+
+    @keyframes glow {
+      from {
+        text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #A20623, 0 0 40px #A20623, 0 0 50px #A20623, 0 0 60px #A20623, 0 0 70px #A20623;
+      }
+      to {
+        text-shadow: 0 0 20px #fff, 0 0 30px #d4184a, 0 0 40px #d4184a, 0 0 50px #d4184a, 0 0 60px #d4184a, 0 0 70px #d4184a, 0 0 80px #d4184a;
+      }
+    }
+
+    @keyframes slideUpFade {
+      from {
+        transform: translateY(12px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    /* Respect users who prefer reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      .login-card {
+        animation: none !important;
+        transform: none !important;
+        opacity: 1 !important;
+      }
+    }
   </style>
 </head>
 
@@ -45,21 +161,23 @@
     <div class="login-card" role="main" aria-labelledby="login-heading">
       <h1 id="login-heading" class="heading" style="color: #A20623;">ArchieAI</h1>
       <p class="sub">Sign in to continue to Archie — or create an account</p>
-      <div class="login-footer">
-        <span>By using this website and logging in you agree to have the following data stored and used:</span>
-        <ul>
-          <li>Email address</li>
-          <li>Password (hashed)</li>
-          <li>Conversation history</li>
-          <li>Usage data</li>
-          <li>IP address And other device/browser information</li>
-          
-        </ul>
-        <span>Also note that this site does use cookies to save session data and other login information</span>
-        <span>If you do not agree to this, please do not continue with login.</span>
-        <span>For more information Eva or Ab (who are probably presenting right now)</span>
-        <p>And finally, Thank you for using ArchieAI!</p>
-
+      <div class="login-footer" aria-labelledby="legal-heading">
+        <span id="legal-heading" class="legal-title">Data & Cookies</span>
+        <div class="legal-scroll">
+          <p>By using this website and logging in you agree that the following data may be stored and used for providing the service:</p>
+          <ul>
+            <li>Email address</li>
+            <li>Password (hashed)
+            </li>
+            <li>Conversation history</li>
+            <li>Usage data</li>
+            <li>IP address and device / browser information</li>
+          </ul>
+          <p>Also note this site uses cookies to save session data and other login information necessary for authentication and preferences.</p>
+        </div>
+        <p class="note">If you do not agree to this, please do not continue with login.</p>
+        <p class="note">For more information contact: Eva or Ab.</p>
+        <p class="thanks">Thank you for using ArchieAI!</p>
       </div>
 
       <!-- Simple login form; POSTs to /login. Replace with real auth handling server-side. -->
@@ -77,7 +195,26 @@
     </div>
   </div>
 
-
+  <script>
+    // Generate random stars in the background
+    function createStars(count = 100) {
+      for (let i = 0; i < count; i++) {
+        const star = document.createElement('div');
+        star.className = 'star twinkle';
+        star.style.left = Math.random() * 100 + '%';
+        star.style.top = Math.random() * 100 + '%';
+        // Randomize animation delays for staggered twinkling and drift
+        const twinkleDelay = Math.random() * 3;
+        const driftDelay = Math.random() * 20;
+        const driftDuration = 15 + Math.random() * 15; // 15-30 seconds
+        star.style.animationDelay = `${twinkleDelay}s, ${driftDelay}s`;
+        star.style.animationDuration = `3s, ${driftDuration}s`;
+        document.body.appendChild(star);
+      }
+    }
+    // Create stars on page load
+    createStars(50);
+  </script>
 </body>
 
 </html>
