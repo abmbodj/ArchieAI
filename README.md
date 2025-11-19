@@ -8,7 +8,14 @@
   Archie AI is an AI-powered assistant designed to help users and students with a variety of tasks, from answering questions to providing recommendations and generating content. Built on Ollama for local LLM inference, ArchieAI aims to enhance productivity and make your experience at Arcadia University more efficient and enjoyable.
 </p>
 
+---
+
+**📖 [Quick Start Guide](QUICK_START.md)** | **🐳 Docker Setup Below** | **💬 [Report Issues](https://github.com/eva-akselrad/ArchieAI/issues)**
+
+---
+
 ## Features
+- **🐳 Docker Support:** One-command setup with Docker and Docker Compose
 - **Natural Language Understanding:** Communicates in a human-like manner.  
 - **Contextual Awareness:** Remembers previous interactions for better responses.  
 - **Streaming Responses:** See the AI "thinking" in real-time with token-by-token streaming.
@@ -22,46 +29,112 @@
 - **Chat History:** View, load, and delete previous conversations.
 - **Web Scraping:** Automated scraping of Arcadia University resources for up-to-date information.  
 
+## Quick Start with Docker (Easiest Method) 🐳
+
+The fastest way to get ArchieAI running is with Docker. This method automatically sets up everything including Ollama.
+
+### Prerequisites
+- [Docker](https://docs.docker.com/get-docker/) installed
+- [Docker Compose](https://docs.docker.com/compose/install/) installed
+
+### One-Command Setup
+
+```bash
+# Clone the repository
+git clone https://github.com/eva-akselrad/ArchieAI.git
+cd ArchieAI
+
+# Run the setup script
+./setup.sh
+```
+
+That's it! The script will:
+- ✅ Check Docker installation
+- ✅ Create configuration files
+- ✅ Build the application
+- ✅ Start all services
+- ✅ Optionally pull the AI model
+
+**Access ArchieAI at:** `http://localhost:5000`
+
+### Manual Docker Setup
+
+If you prefer manual control:
+
+```bash
+# 1. Create environment file
+cp .env.example .env
+
+# 2. Create data directory
+mkdir -p data/sessions
+
+# 3. Start services (use 'docker compose' or 'docker-compose' based on your version)
+docker compose up -d
+# OR
+docker-compose up -d
+
+# 4. Pull an AI model (choose one)
+docker exec archie-ollama ollama pull qwen3:4b
+# OR for advanced quality (much larger download, requires more RAM):
+docker exec archie-ollama ollama pull qwen3:235b
+
+# 5. Access the application
+open http://localhost:5000
+```
+
+### Docker Management Commands
+
+```bash
+# View logs
+docker compose logs -f
+
+# Stop services
+docker compose stop
+
+# Start services
+docker compose start
+
+# Restart services
+docker compose restart
+
+# Stop and remove containers
+docker compose down
+
+# Rebuild after code changes
+docker compose up -d --build
+
+# Pull a different model
+docker exec archie-ollama ollama pull <model-name>
+
+# List available models
+docker exec archie-ollama ollama list
+```
+
+**Note:** If you have an older Docker installation, replace `docker compose` with `docker-compose` in all commands.
+
+### Configuration
+
+Edit `.env` file to customize:
+- `MODEL`: Change AI model (default: `qwen3:4b`, advanced: `qwen3:235b`)
+- `OLLAMA_HOST`: Ollama server URL
+- `OLLAMA_PORT`: Ollama port (default: `11434`)
+
 ## Setup
 
-### Running the Rust Version (Recommended)
+### Running the Rust Version
 
 1. Install [Ollama](https://ollama.ai/) on your system
-2. Pull a model that supports tool calling: `ollama pull qwen3` (recommended for tool calling support)
+2. Pull the AI model: `ollama pull qwen3:4b` (or `qwen3:235b` for advanced quality)
 3. Copy `.env.example` to `.env` and configure your model:
    ```bash
    cp .env.example .env
    ```
-4. Edit `.env` and set your preferred model (e.g., `MODEL=qwen3`)
+4. Edit `.env` and set your preferred model (default is `MODEL=qwen3:4b`)
 5. Build and run with Cargo:
    ```bash
    cargo run --release
    ```
 6. Access the web interface at `http://localhost:5000`
-
-### Running the Python Version (Legacy)
-
-1. Install [Ollama](https://ollama.ai/) on your system
-2. Pull a model that supports tool calling: `ollama pull qwen3` (recommended for tool calling support)
-3. Copy `.env.example` to `.env` and configure your model:
-   ```bash
-   cp .env.example .env
-   ```
-4. Edit `.env` and set your preferred model (e.g., `MODEL=qwen3`)
-5. Install Python dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-6. Initialize data directories:
-   ```bash
-   mkdir -p data/sessions
-   echo '{}' > data/qna.json
-   ```
-7. Run the application:
-   ```bash
-   python src/app.py
-   ```
-8. Access the web interface at `http://localhost:5000`
 
 ## Usage
 
@@ -88,7 +161,7 @@ ArchieAI uses Ollama's tool calling feature to intelligently search the web when
 - The scraped university data doesn't contain the answer
 - The query requires current/real-time information
 - The AI determines additional information is needed
-- **Note:** Requires a model with tool calling support (e.g., qwen3)
+- **Note:** qwen3 models have excellent tool calling support
 
 #### Session Context
 - Each conversation maintains context within the session
@@ -147,11 +220,78 @@ cargo build --release
 ./target/release/archie-ai-rust
 ```
 
-### Python Web Scraper
+## Troubleshooting
 
-To run the web scraper manually:
+### Docker Issues
+
+**Services won't start:**
 ```bash
-python src/helpers/scraper.py
+# Check if ports are available
+sudo lsof -i :5000
+sudo lsof -i :11434
+
+# Restart Docker
+sudo systemctl restart docker  # Linux
+# OR restart Docker Desktop on Mac/Windows
 ```
 
-The scraper runs in a loop and updates university data every hour.
+**Ollama model not found:**
+```bash
+# Pull the default model
+docker exec archie-ollama ollama pull qwen3:4b
+
+# OR pull the advanced model (requires more RAM)
+docker exec archie-ollama ollama pull qwen3:235b
+
+# Verify model is installed
+docker exec archie-ollama ollama list
+```
+
+**Permission denied errors:**
+```bash
+# Fix data directory permissions
+sudo chown -R $USER:$USER data/
+chmod -R 755 data/
+```
+
+**Container keeps restarting:**
+```bash
+# Check logs
+docker-compose logs archie-ai
+docker-compose logs ollama
+
+# Rebuild containers
+docker-compose down
+docker-compose up -d --build
+```
+
+### Application Issues
+
+**"Failed to load home page" error:**
+- Ensure templates exist in `src/templates/`
+- Check file permissions
+- Verify Docker volume mounts
+
+**AI not responding:**
+- Ensure Ollama is running: `docker ps`
+- Check model is pulled: `docker exec archie-ollama ollama list`
+- Verify `.env` has correct `MODEL` name
+
+**Session not persisting:**
+- Check `data/` directory exists and is writable
+- Verify Docker volume mount in `docker-compose.yml`
+
+## System Requirements
+
+- **RAM:** Minimum 8GB (16GB recommended for larger models)
+- **Storage:** 10GB+ free space (models can be large)
+- **CPU:** Multi-core processor recommended
+- **OS:** Linux, macOS, or Windows with Docker support
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is for educational purposes at Arcadia University.
