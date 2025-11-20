@@ -1,11 +1,25 @@
 # ArchieAI Quick Start Guide
-# Quick start made with the help of Archie :) because this is not a direct part of my project just something for the future if i feel like adding onto this stupid rust project
+
 ## 🚀 Fastest Setup (Docker)
 
 ```bash
-./setup.sh
-```
+# Clone the repository
+git clone https://github.com/eva-akselrad/ArchieAI.git
+cd ArchieAI
 
+# Create environment file
+cp .env.example .env
+
+# Create data directory
+mkdir -p data/sessions
+
+# Start services with Docker Compose
+docker compose up -d
+
+# Pull the AI model
+docker exec archie-ollama ollama pull qwen3:4b
+```
+# WARNING THIS TAKES LIKE 30 YEARS TO DO SO BE PREPARED
 Then open: http://localhost:5000
 
 ## 📋 Common Commands
@@ -27,7 +41,7 @@ docker compose logs -f ollama       # Just Ollama
 
 ### Manage Models
 ```bash
-docker exec archie-ollama ollama list                    # List installed models
+    docker exec archie-ollama ollama list                    # List installed models
 docker exec archie-ollama ollama pull qwen3:4b           # Pull default model
 docker exec archie-ollama ollama pull qwen3:235b         # Pull advanced model (larger)
 docker exec archie-ollama ollama rm qwen3:4b             # Remove a model
@@ -88,7 +102,7 @@ docker compose restart
 
 ## 🎯 Quick Tips
 
-1. **First time setup:** Run `./setup.sh` and let it pull a model
+1. **First time setup:** Follow the commands above - no script needed!
 2. **Change models:** Update `MODEL` in `.env` and pull the new model
 3. **Persistent data:** All chats saved in `./data/` directory
 4. **View all commands:** `docker compose --help`
