@@ -10,7 +10,11 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
 
   <link rel="stylesheet" href="static/styles/style.css" />
+
   <style>
+    body {
+      background: #1a2332;
+    }
     .login-container {
       min-height: 100vh;
       display: flex;
@@ -21,21 +25,210 @@
     .login-card {
       width: 100%;
       max-width: 420px;
-      background: var(--card-bg, #fff);
+      background: #283045;
       border-radius: 12px;
       padding: 1.75rem;
       box-shadow: 0 8px 24px rgba(0,0,0,0.08);
       text-align: center;
+      position: relative;
+      z-index: 10;
+      /* initial state for entrance animation */
+      transform: translateY(12px);
+      opacity: 0;
+      animation: slideUpFade 420ms cubic-bezier(.22,.9,.35,1) 80ms both;
     }
-    .login-card h1 { margin: 0 0 0.25rem 0; }
-    .login-card p.sub { margin: 0 0 1.25rem 0; color: #666; }
-    .login-field { width: 100%; padding: 0.75rem; margin-bottom: 0.75rem; border-radius: 8px; border: 1px solid #ddd; }
+    .login-card h1 {
+      margin: 0 0 0.25rem 0;
+      font-size: 2.5rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: #fff;
+      -webkit-animation: glow 1s ease-in-out infinite alternate;
+      -moz-animation: glow 1s ease-in-out infinite alternate;
+      animation: glow 1s ease-in-out infinite alternate;
+    }
+    .login-card p.sub { margin: 0 0 1.25rem 0; color: #97a7ca; }
+    .login-field { width: 100%; padding: 0.75rem; margin-bottom: 0.75rem; border-radius: 8px; border: 1px solid #3a4a62; background: #1a2332; color: #ffffff; }
+    .login-field::placeholder { color: #7a8a9f; }
     .login-actions { display:flex; gap:0.5rem; margin-top: 0.5rem; }
     .btn { flex:1; padding:0.75rem; border-radius:8px; border: none; cursor:pointer; font-weight:600; }
-    .btn-primary { background:#2b6ef6; color:#fff; }
+    .btn-primary { background:#A20623; color:#fff; transition: 0.3s ease; }
+    .btn-primary:hover {
+      -webkit-animation: glow 1s ease-in-out infinite alternate;
+      -moz-animation: glow 1s ease-in-out infinite alternate;
+      animation: glow 1s ease-in-out infinite alternate;
+      text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #A20623, 0 0 40px #A20623, 0 0 50px #A20623, 0 0 60px #A20623, 0 0 70px #A20623;
+    }
     .btn-ghost { background:transparent; border:1px solid #ccc; }
-    .login-footer { margin-top:1rem; font-size:0.9rem; color:#555; }
+    .login-footer { margin-top:1rem; font-size:0.95rem; color:#c3cdde; text-align:left; line-height:1.45; }
+    .login-footer .legal-title { display:block; font-weight:700; margin-bottom:0.5rem; color:#ffffff; }
+    .login-footer .legal-scroll { max-height:160px; overflow:auto; padding-right:0.5rem; margin-bottom:0.5rem; }
+    .login-footer ul { margin:0.5rem 0 0.75rem 1.05rem; }
+    .login-footer p.note { margin-top:0.5rem; font-size:0.9rem; color:#97a7ca; }
+    .login-footer p.thanks { margin-top:0.5rem; font-weight:600; color:#ffffff; }
     .small-link { color:#2b6ef6; text-decoration:none; margin-left:0.25rem; }
+
+    /* Starfield background */
+    .star {
+      position: fixed;
+      width: 2px;
+      height: 2px;
+      background: #ffffff;
+      border-radius: 50%;
+      pointer-events: none;
+      box-shadow: 0 0 2px rgba(255, 255, 255, 0.8);
+      z-index: 1;
+    }
+
+    .star.twinkle {
+      animation: twinkle 3s infinite, drift 20s infinite linear;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 1; }
+    }
+
+    @keyframes drift {
+      0% {
+        transform: translate(0, 0);
+      }
+      25% {
+        transform: translate(30px, -20px);
+      }
+      50% {
+        transform: translate(-20px, 30px);
+      }
+      75% {
+        transform: translate(15px, 15px);
+      }
+      100% {
+        transform: translate(0, 0);
+      }
+    }
+
+    @-webkit-keyframes glow {
+      from {
+        text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #A20623, 0 0 40px #A20623, 0 0 50px #A20623, 0 0 60px #A20623, 0 0 70px #A20623;
+      }
+      to {
+        text-shadow: 0 0 20px #fff, 0 0 30px #d4184a, 0 0 40px #d4184a, 0 0 50px #d4184a, 0 0 60px #d4184a, 0 0 70px #d4184a, 0 0 80px #d4184a;
+      }
+    }
+
+    @-moz-keyframes glow {
+      from {
+        text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #A20623, 0 0 40px #A20623, 0 0 50px #A20623, 0 0 60px #A20623, 0 0 70px #A20623;
+      }
+      to {
+        text-shadow: 0 0 20px #fff, 0 0 30px #d4184a, 0 0 40px #d4184a, 0 0 50px #d4184a, 0 0 60px #d4184a, 0 0 70px #d4184a, 0 0 80px #d4184a;
+      }
+    }
+
+    @keyframes glow {
+      from {
+        text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #A20623, 0 0 40px #A20623, 0 0 50px #A20623, 0 0 60px #A20623, 0 0 70px #A20623;
+      }
+      to {
+        text-shadow: 0 0 20px #fff, 0 0 30px #d4184a, 0 0 40px #d4184a, 0 0 50px #d4184a, 0 0 60px #d4184a, 0 0 70px #d4184a, 0 0 80px #d4184a;
+      }
+    }
+
+    @keyframes slideUpFade {
+      from {
+        transform: translateY(12px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    /* Respect users who prefer reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      .login-card {
+        animation: none !important;
+        transform: none !important;
+        opacity: 1 !important;
+      }
+    }
+
+    /* Mobile responsiveness */
+    @media (max-width: 768px) {
+      .login-container {
+        padding: 1rem;
+        min-height: auto;
+      }
+      .login-card {
+        max-width: 100%;
+        padding: 1.5rem 1rem;
+      }
+      .login-card h1 {
+        font-size: 2rem;
+        letter-spacing: 1px;
+      }
+      .login-card p.sub {
+        font-size: 0.95rem;
+      }
+      .login-field {
+        padding: 0.65rem;
+        font-size: 1rem;
+      }
+      .btn {
+        padding: 0.65rem;
+        font-size: 0.95rem;
+      }
+      .login-footer {
+        font-size: 0.85rem;
+      }
+      .login-footer .legal-scroll {
+        max-height: 120px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .login-container {
+        padding: 0.5rem;
+      }
+      .login-card {
+        padding: 1.25rem 0.75rem;
+        max-width: 100%;
+      }
+      .login-card h1 {
+        font-size: 1.75rem;
+        margin-bottom: 0.5rem;
+      }
+      .login-card p.sub {
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+      }
+      .login-field {
+        padding: 0.6rem;
+        margin-bottom: 0.6rem;
+        font-size: 16px;
+      }
+      .login-actions {
+        gap: 0.4rem;
+      }
+      .btn {
+        padding: 0.6rem;
+        font-size: 0.9rem;
+      }
+      .login-footer {
+        font-size: 0.8rem;
+        margin-top: 0.75rem;
+      }
+      .login-footer .legal-title {
+        font-size: 0.95rem;
+      }
+      .login-footer .legal-scroll {
+        max-height: 100px;
+      }
+      .login-footer ul {
+        margin-left: 1rem;
+      }
+    }
   </style>
 </head>
 
@@ -77,7 +270,26 @@
     </div>
   </div>
 
-
+  <script>
+    // Generate random stars in the background
+    function createStars(count = 100) {
+      for (let i = 0; i < count; i++) {
+        const star = document.createElement('div');
+        star.className = 'star twinkle';
+        star.style.left = Math.random() * 100 + '%';
+        star.style.top = Math.random() * 100 + '%';
+        // Randomize animation delays for staggered twinkling and drift
+        const twinkleDelay = Math.random() * 3;
+        const driftDelay = Math.random() * 20;
+        const driftDuration = 15 + Math.random() * 15; // 15-30 seconds
+        star.style.animationDelay = `${twinkleDelay}s, ${driftDelay}s`;
+        star.style.animationDuration = `3s, ${driftDuration}s`;
+        document.body.appendChild(star);
+      }
+    }
+    // Create stars on page load
+    createStars(50);
+  </script>
 </body>
 
 </html>
