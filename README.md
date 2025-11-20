@@ -56,7 +56,7 @@ That's it! The script will:
 - ✅ Optionally pull the AI model
 
 **Access ArchieAI at:** `http://localhost:5000`
-
+# The following section was done by Archie as a test of its abilities and may be wrong. I cant be bothered to check so good luck
 ### Manual Docker Setup
 
 If you prefer manual control:
@@ -111,7 +111,7 @@ docker exec archie-ollama ollama list
 ```
 
 **Note:** If you have an older Docker installation, replace `docker compose` with `docker-compose` in all commands.
-
+# end Archie section
 ### Configuration
 
 Edit `.env` file to customize:
@@ -294,4 +294,4 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
-This project is for educational purposes at Arcadia University.
+This project is for educational purposes at Arcadia University and has no warrenty and is provided AS IS.

@@ -1,5 +1,5 @@
 # ArchieAI Quick Start Guide
-
+# Quick start made with the help of Archie :) because this is not a direct part of my project just something for the future if i feel like adding onto this stupid rust project
 ## 🚀 Fastest Setup (Docker)
 
 ```bash

@@ -2,6 +2,7 @@
 // Collects interaction data and saves to JSON for later analysis.
 // For the data science class I will probably remove this when the semester ends but for now it will help me collect data on how people are using ArchieAI
 // and i will manipulate the data to find trends for my project
+#![allow(dead_code)]//for dev purposes TODO remove later
 
 use chrono::Utc;
 use serde::{Deserialize, Serialize};

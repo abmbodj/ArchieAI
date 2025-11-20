@@ -1,6 +1,7 @@
 // ArchieAI Rust Web Server
 // Converted from Flask app.py to Axum
 // Maintains the same functionality as the Python version
+#![allow(dead_code)]//for dev purposes TODO remove later
 
 use axum::{
     extract::{Path, State},
@@ -632,7 +633,7 @@ mod tests {
 
     #[tokio::test]
     async fn test_ai_interface_creation() {
-        let ai = AiInterface::new(false, 3, 1.0, 15);
+        let _ai = AiInterface::new(false, 3, 1.0, 15);
         // Just verify it can be created without panicking
         assert!(true);
     }

@@ -1,5 +1,6 @@
 // Session and user management for ArchieAI.
 // Handles user accounts, session storage, and chat history.
+#![allow(dead_code)]//for dev purposes TODO remove later
 
 use chrono::Utc;
 use rand::Rng;
@@ -377,7 +378,7 @@ mod tests {
     #[test]
     fn test_session_manager_new() {
         let test_dir = setup_test_dir("session_manager_new");
-        let manager = SessionManager::new(&test_dir);
+        let _manager = SessionManager::new(&test_dir);
         
         // Check that directories are created
         assert!(std::path::Path::new(&test_dir).exists());
