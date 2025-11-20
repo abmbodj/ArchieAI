@@ -1,5 +1,5 @@
 // AI Interface using Ollama for local LLM inference with streaming support.
-#![allow(dead_code)]
+#![allow(dead_code)]//for dev purposes TODO remove later
 use ollama_rs::{
     generation::chat::{request::ChatMessageRequest, ChatMessage},
     Ollama,
